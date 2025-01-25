@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Text</title>
+</head>
+<body>
+    <h1>Share a Secure Text</h1>
+    {% if success %}
+        <p>Your text has been shared successfully!</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="text">Enter your text:</label><br>
+        <textarea id="text" name="text" rows="5" cols="40"></textarea><br>
+        <label for="expiration">Expiration (in hours):</label><br>
+        <input id="expiration" name="expiration" type="number" min="1" max="168" value="24"><br><br>
+        <button type="submit">Share</button>
+    </form>
+</body>
+</html>
