@@ -3,23 +3,22 @@ import uuid
 from cryptography.fernet import Fernet
 
 class SharedSecret(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # Unikt ID
-    encrypted_text = models.TextField()  # Krypterad text
-    created_at = models.DateTimeField(auto_now_add=True)  # När posten skapades
-    expires_at = models.DateTimeField()  # När posten ska utgå
-    is_opened = models.BooleanField(default=False)  # Status för om posten öppnats
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    encrypted_text = models.TextField()
+    encryption_key = models.TextField()  # Nytt fält för att lagra nyckeln
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    is_opened = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        # Kryptera texten innan lagring (Placeholder för riktig implementation)
-        if not self.encrypted_text.startswith('gAAAA'):
-            key = Fernet.generate_key()
-            cipher = Fernet(key)
-            self.encrypted_text = cipher.encrypt(self.encrypted_text.encode()).decode()
+        if not self.encryption_key:
+            self.encryption_key = Fernet.generate_key().decode()
+        cipher = Fernet(self.encryption_key.encode())
+        self.encrypted_text = cipher.encrypt(self.encrypted_text.encode()).decode()
         super().save(*args, **kwargs)
 
-    def decrypt_text(self, key):
-        # Dekryptera texten
-        cipher = Fernet(key)
+    def decrypt_text(self):
+        cipher = Fernet(self.encryption_key.encode())
         return cipher.decrypt(self.encrypted_text.encode()).decode()
 
     def __str__(self):
