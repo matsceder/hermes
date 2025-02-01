@@ -4,6 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Share Text</title>
+    <style>
+        button.expiration-btn {
+            margin: 5px;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button.expiration-btn:hover {
+            background-color: #0056b3;
+        }
+        .selected {
+            background-color: #28a745 !important;
+        }
+    </style>
+    <script>
+        function setExpiration(hours) {
+            document.getElementById('expiration').value = hours;
+            let buttons = document.querySelectorAll('.expiration-btn');
+            buttons.forEach(btn => btn.classList.remove('selected')); // Ta bort tidigare markering
+            document.getElementById(`btn-${hours}`).classList.add('selected'); // Markera vald knapp
+        }
+    </script>
 </head>
 <body>
     <h1>Share a Secure Text</h1>
@@ -12,8 +37,14 @@
         <label for="text">Enter your text:</label><br>
         <textarea id="text" name="text" rows="5" cols="40" required></textarea><br><br>
 
-        <label for="expiration">Expiration (in hours):</label><br>
-        <input id="expiration" name="expiration" type="number" min="1" max="168" value="24"><br><br>
+        <label>Choose expiration time:</label><br>
+        <button type="button" class="expiration-btn selected" id="btn-24" onclick="setExpiration(24)">24 hours</button>
+        <button type="button" class="expiration-btn" id="btn-1" onclick="setExpiration(1)">1 hour</button>
+        <button type="button" class="expiration-btn" id="btn-6" onclick="setExpiration(6)">6 hours</button>
+        <button type="button" class="expiration-btn" id="btn-72" onclick="setExpiration(72)">72 hours</button>
+        <button type="button" class="expiration-btn" id="btn-168" onclick="setExpiration(168)">168 hours</button><br><br>
+
+        <input type="hidden" id="expiration" name="expiration" value="24"> <!-- Standardvärde 24h -->
 
         <button type="submit">Share</button>
     </form>

@@ -9,26 +9,22 @@ def home(request):
 
 def share_text(request):
     if request.method == 'POST':
-        # Hämta formulärdata
         text = request.POST.get('text')
-        expiration_hours = int(request.POST.get('expiration', 24))  # Standard 24 timmar
+        expiration_hours = int(request.POST.get('expiration', 24))  # Standard 24h
         expires_at = now() + timedelta(hours=expiration_hours)
 
-        # Skapa en ny post i databasen
         secret = SharedSecret.objects.create(
             encrypted_text=text,
             expires_at=expires_at
         )
 
-        # Generera en unik länk och visa nyckeln
         link = f"http://127.0.0.1:8000/unlock/{secret.id}/"
         key = secret.encryption_key
 
-        # Visa länken i en bekräftelsesida
         return render(request, 'core/secret_created.html', {'link': link, 'key': key})
 
-    # GET-förfrågan: Visa formuläret
     return render(request, 'core/share_text.html')
+
 
 def unlock_secret(request, secret_id):
     if request.method == 'POST':
