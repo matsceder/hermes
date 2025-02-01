@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +70,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'hermes.wsgi.application'
+
+
+# Celery-konfiguration
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis används som message broker
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
 
 
 # Database
