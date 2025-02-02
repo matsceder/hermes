@@ -34,6 +34,7 @@
     <h1>Share a Secure Text</h1>
     <form method="post">
         {% csrf_token %}
+
         <label for="text">Enter your text:</label><br>
         <textarea id="text" name="text" rows="5" cols="40" required></textarea><br><br>
 
@@ -46,7 +47,14 @@
 
         <input type="hidden" id="expiration" name="expiration" value="24"> <!-- Standardvärde 24h -->
 
+        <label for="email">Recipient Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
         <button type="submit">Share</button>
     </form>
+
+    {% if success %}
+        <p>Success! The secret has been shared.</p>
+    {% endif %}
 </body>
 </html>

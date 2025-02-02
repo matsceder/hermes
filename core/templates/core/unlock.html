@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlock Secret</title>
+</head>
+<body>
+    <h1>Unlock a Secret</h1>
+
+    {% if message %}
+        <p style="color: red;">{{ message }}</p>
+    {% elif decrypted_text %}
+        <p><strong>Secret:</strong> {{ decrypted_text }}</p>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="key">Enter your decryption key:</label>
+            <input type="text" id="key" name="key" required>
+            <button type="submit">Unlock</button>
+        </form>
+    {% endif %}
+</body>
+</html>
