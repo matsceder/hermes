@@ -11,7 +11,7 @@ Hermes is a self-hosted service for securely sharing API keys, passwords, secret
 ## Installation (Getting Started)
 1. Clone this repository:
    ```powershell
-   git clone https://github.com/<your-username>/hermes.git
+   git clone https://github.com/matsceder/hermes.git
    cd hermes
    ```
 2. Create a virtual Python environment:
