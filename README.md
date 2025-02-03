@@ -2,16 +2,16 @@
 
 Hermes is a self-hosted service for securely sharing API keys, passwords, secret messages, and small files. Inspired by Yopass, the project aims to provide time-limited and encrypted sharing of sensitive information.
 
-## Features (In Progress)
-- Secure sharing of text and files with time-based expiration.
+## Features (Implemented)
+- Secure sharing of text with time-based expiration.
 - Encryption of all data before storage.
-- Email notifications to recipients with a unique link and key.
+- Email notifications to recipients with a unique link and key (via SendGrid).
 - Automatic cleanup of expired secrets using Celery Beat.
 
 ## Installation (Getting Started)
 1. Clone this repository:
    ```powershell
-   git clone https://github.com/matsceder/hermes.git
+   git clone https://github.com/<your-username>/hermes.git
    cd hermes
    ```
 2. Create a virtual Python environment:
@@ -31,32 +31,39 @@ Hermes is a self-hosted service for securely sharing API keys, passwords, secret
    ```powershell
    python manage.py createsuperuser
    ```
-6. Start the Django development server:
+6. Configure environment variables by creating a `.env` file:
+   ```
+   SENDGRID_API_KEY=your_sendgrid_api_key_here
+   EMAIL_HOST_USER=your_email@example.com
+   EMAIL_HOST_PASSWORD=your_email_password_or_api_key
+   ```
+7. Start the Django development server:
    ```powershell
    python manage.py runserver
    ```
-7. Start Celery Worker:
+8. Start Celery Worker:
    ```powershell
    celery -A hermes worker --loglevel=info --pool=solo
    ```
-8. Start Celery Beat:
+9. Start Celery Beat:
    ```powershell
    celery -A hermes beat --loglevel=info
    ```
 
 ## Project Status
 - [x] Initial Django project setup.
-- [x] Add functionality for secure text sharing.
+- [x] Secure text sharing with encryption.
+- [x] Email notifications via SendGrid.
 - [x] Automatic deletion of expired secrets using Celery.
-- [ ] Integrate Google Drive for file sharing.
-- [ ] Create a user-friendly frontend.
+- [ ] Improve frontend UI/UX.
+- [ ] Evaluate Zero-Knowledge encryption model.
 
 ## Tech Stack
 - Python (Django)
 - PostgreSQL
 - Celery + Redis (for background tasks)
 - Django Celery Beat (for scheduled tasks)
-- Google Drive API (for file handling, future feature)
+- SendGrid API (for email notifications)
 
 ---
 
@@ -64,4 +71,5 @@ Hermes is a self-hosted service for securely sharing API keys, passwords, secret
 - User authentication via Google SSO or manual registration.
 - Ability to save frequently used recipient addresses.
 - Protection against denial-of-service attacks.
+- Potential Google Drive integration for file sharing.
 
